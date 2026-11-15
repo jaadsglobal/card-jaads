@@ -11,7 +11,7 @@ export const site = {
   lastName: 'Márquez Pérez',
   role: 'Fundador y CEO',
   headline: 'Menos tiempo perdido. Más oportunidades de venta.',
-  description: 'Filtramos los contactos que no encajan con tu negocio para que te centres en los clientes con mayor intención de compra.',
+  description: 'Captamos clientes potenciales y automatizamos tu proceso comercial: desde el primer contacto y la cualificación hasta el seguimiento y el cierre de ventas.',
   logo: '/brand/logo-jaads-256.webp', // Copia optimizada; original intacto en public/brand/.
   favicon: '/brand/favicon-64.png',
   socialImage: '', // URL absoluta de la imagen para compartir, cuando esté disponible.
