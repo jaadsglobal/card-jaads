@@ -1,22 +1,31 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Pause, Play } from 'lucide-react';
 
 type Node = { x: number; y: number; phase: number; accent: boolean };
 
 export function ConnectionBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const elapsedRef = useRef(0);
+  const [motionEnabled, setMotionEnabled] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setMotionEnabled(!preference.matches);
+    preference.addEventListener('change', updatePreference);
+    return () => preference.removeEventListener('change', updatePreference);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
     if (!canvas || !context) return;
 
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let width = 0;
     let height = 0;
     let nodes: Node[] = [];
     let frame = 0;
     let previousFrame = 0;
-    let elapsed = 0;
+    let elapsed = elapsedRef.current;
     let previousTime = 0;
 
     function draw(time: number) {
@@ -24,10 +33,10 @@ export function ConnectionBackground() {
       context.clearRect(0, 0, width, height);
       const positions = nodes.map(node => ({
         ...node,
-        x: node.x + Math.sin(time * 0.00055 + node.phase) * 36,
-        y: node.y + Math.cos(time * 0.00045 + node.phase) * 29,
+        x: node.x + Math.sin(time * 0.0008 + node.phase) * 45,
+        y: node.y + Math.cos(time * 0.00065 + node.phase) * 36,
       }));
-      const reach = width < 600 ? 160 : 220;
+      const reach = width < 600 ? 200 : 240;
 
       for (let i = 0; i < positions.length; i++) {
         const a = positions[i];
@@ -36,14 +45,14 @@ export function ConnectionBackground() {
           const distance = Math.hypot(a.x - b.x, a.y - b.y);
           if (distance > reach) continue;
           const accent = a.accent || b.accent;
-          const opacity = (1 - distance / reach) * (accent ? 0.6 : 0.36);
+          const opacity = (1 - distance / reach) * (accent ? 0.85 : 0.48);
           context.strokeStyle = accent ? `rgba(227,6,19,${opacity})` : `rgba(190,195,205,${opacity})`;
           context.lineWidth = 0.85;
           context.beginPath(); context.moveTo(a.x, a.y); context.lineTo(b.x, b.y); context.stroke();
 
           // Visible signals flow between adjacent nodes, with a soft trail.
           if (accent && (i + j) % 3 === 0) {
-            const progress = (time * 0.00016 + i * 0.17) % 1;
+            const progress = (time * 0.00024 + i * 0.17) % 1;
             const signalX = a.x + (b.x - a.x) * progress;
             const signalY = a.y + (b.y - a.y) * progress;
             const tail = Math.max(0, progress - 0.14);
@@ -59,8 +68,8 @@ export function ConnectionBackground() {
             context.fill();
           }
         }
-        context.fillStyle = a.accent ? 'rgba(239,35,49,0.85)' : 'rgba(210,215,225,0.5)';
-        context.beginPath(); context.arc(a.x, a.y, a.accent ? 2.1 : 1.5, 0, Math.PI * 2); context.fill();
+        context.fillStyle = a.accent ? 'rgba(255,45,60,1)' : 'rgba(210,215,225,0.7)';
+        context.beginPath(); context.arc(a.x, a.y, a.accent ? 2.7 : 1.8, 0, Math.PI * 2); context.fill();
       }
     }
 
@@ -76,7 +85,7 @@ export function ConnectionBackground() {
     function updateMotion() {
       cancelAnimationFrame(frame);
       previousTime = 0;
-      if (motion.matches || document.hidden) { draw(elapsed); return; }
+      if (!motionEnabled || document.hidden) { draw(elapsed); return; }
       frame = requestAnimationFrame(tick);
     }
 
@@ -105,15 +114,15 @@ export function ConnectionBackground() {
     resize();
     updateMotion();
     window.addEventListener('resize', resize);
-    motion.addEventListener('change', updateMotion);
     document.addEventListener('visibilitychange', updateMotion);
     return () => {
       cancelAnimationFrame(frame);
+      elapsedRef.current = elapsed;
       window.removeEventListener('resize', resize);
-      motion.removeEventListener('change', updateMotion);
       document.removeEventListener('visibilitychange', updateMotion);
     };
-  }, []);
+  }, [motionEnabled]);
 
-  return <canvas ref={canvasRef} className="connection-background" aria-hidden="true" />;
+  const label = motionEnabled ? 'Pausar movimiento del fondo' : 'Activar movimiento del fondo';
+  return <><canvas ref={canvasRef} className="connection-background" aria-hidden="true" /><button type="button" className="motion-toggle" aria-label={label} title={label} aria-pressed={motionEnabled} onClick={() => setMotionEnabled(enabled => !enabled)}>{motionEnabled ? <Pause size={16} /> : <Play size={16} />}</button></>;
 }

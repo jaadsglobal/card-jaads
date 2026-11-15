@@ -20,4 +20,8 @@ test('background animates quietly and becomes static with reduced motion', async
   const paused = await image();
   await page.waitForTimeout(250);
   expect(await image()).toBe(paused);
+  await page.getByRole('button', { name: 'Activar movimiento del fondo' }).click();
+  await expect.poll(image).not.toBe(paused);
+  await page.getByRole('button', { name: 'Pausar movimiento del fondo' }).click();
+  await expect(page.getByRole('button', { name: 'Activar movimiento del fondo' })).toBeVisible();
 });

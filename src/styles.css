@@ -13,7 +13,9 @@ button:disabled { cursor: not-allowed; }
 :focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 ::selection { background: #9d0812; color: #fff; }
 .connection-background { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.page-shell { position: relative; z-index: 1; width: min(520px, calc(100% - 40px)); margin: 32px auto 26px; padding: 28px 24px 24px; border: 1px solid var(--red); border-radius: 20px; background: rgba(8, 8, 8, 0.94); }
+.page-shell { position: relative; z-index: 1; width: min(520px, calc(100% - 40px)); margin: 32px auto 26px; padding: 28px 24px 24px; border: 1px solid var(--red); border-radius: 20px; background: rgba(8, 8, 8, 0.55); }
+.motion-toggle { position: fixed; right: 14px; bottom: 14px; z-index: 5; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #fff; background: #171717; border: 1px solid #6b252c; border-radius: 50%; box-shadow: 0 3px 15px #0008; }
+.motion-toggle:hover { background: #2b171a; border-color: var(--red); }
 .skip-link { position: fixed; z-index: 20; left: 16px; top: -80px; padding: 14px 20px; border-radius: 8px; color: #080808; background: #fff; }
 .skip-link:focus { top: 16px; }
 .profile { text-align: center; padding: 0 12px; }

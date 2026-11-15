@@ -11,8 +11,8 @@ import { ConnectionBackground } from './components/ConnectionBackground';
 
 function CardPage() {
   return <>
-    <ConnectionBackground />
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
+    <ConnectionBackground />
     <div className="page-shell"><main id="contenido">
       <ProfileHeader />
       <SocialLinks />
