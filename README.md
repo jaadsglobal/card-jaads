@@ -1,6 +1,6 @@
 # JaaDs Global · Tarjeta digital
 
-Tarjeta ejecutiva vertical, centrada y de un máximo de 520 px, con React, TypeScript, Vite, Tailwind CSS, Lucide, Simple Icons y Framer Motion. Tres acciones blancas: reservar, WhatsApp y web. La cabecera presenta únicamente JaaDs Global y las redes muestran LinkedIn de empresa, Instagram y Facebook en una fila sin recuadros. Sin backend, formularios ni servicios de pago. Fuente Manrope alojada en el propio proyecto.
+Tarjeta ejecutiva vertical, centrada y de un máximo de 520 px, con React, TypeScript, Vite, Tailwind CSS, Lucide, Simple Icons y una animación Canvas ligera. Tres acciones blancas: reservar, WhatsApp y web. La cabecera presenta únicamente JaaDs Global y las redes muestran LinkedIn de empresa, Instagram y Facebook en una fila sin recuadros. Sin backend, formularios ni servicios de pago. Fuente Manrope alojada en el propio proyecto.
 
 ## Desarrollo
 
@@ -28,9 +28,9 @@ Variables: `VITE_BOOKING_URL`, `VITE_WHATSAPP_NUMBER`, `VITE_LINKEDIN_COMPANY_UR
 - `phone`: teléfono de la vCard. Si está vacío, utiliza WhatsApp cuando esté configurado.
 - `socials`: tres accesos preparados: LinkedIn de empresa, Instagram y Facebook. Los perfiles sin URL muestran su icono sin enlace activo, con etiqueta accesible y tooltip. Se mantienen en una fila con desplazamiento horizontal cuando hace falta. Los SVG y colores proceden de Simple Icons; TikTok se representa en blanco para el fondo oscuro.
 - `publicUrl`: URL definitiva de esta tarjeta. Activa canonical, `og:url` y QR. Compartir utiliza la URL actual del navegador mientras no se configure.
-- `logo`: utiliza `public/brand/logo-jaads-circular.png`, centrado en un círculo blanco con exterior transparente. El PNG original sin retocar se conserva en `public/brand/logo-jaads-original.png`. Para recomponer el círculo a partir del original : `node scripts/prepare-logo.mjs`. El script conserva los colores, los textos y las proporciones; solo ajusta escala y posición. Si falta el archivo, muestra «Logotipo».
+- `logo`: utiliza `public/brand/logo-jaads-256.webp`, copia ligera del original centrado en un círculo blanco con exterior transparente. El PNG circular maestro se conserva en `public/brand/logo-jaads-circular.png`; `node scripts/optimize-web-assets.mjs` regenera las copias web y el favicon. El PNG original sin retocar se conserva en `public/brand/logo-jaads-original.png`. Para recomponer el círculo a partir del original : `node scripts/prepare-logo.mjs`. El script conserva los colores, los textos y las proporciones; solo ajusta escala y posición. Si falta el archivo, muestra «Logotipo».
 
-- `favicon`: ruta pública del favicon. El incluido es provisional.
+- `favicon`: copia PNG de 64 px del mismo logotipo, optimizada para la pestaña del navegador.
 - `socialImage`: URL absoluta de una imagen social, opcional. Añade las etiquetas de imagen de Open Graph y Twitter al compilar.
 - Nombre, cargo, descripción y servicios también son editables en ese archivo.
 
@@ -57,3 +57,11 @@ npx playwright test
 ```
 
 Los tests comprueban tamaños móvil/escritorio, el logotipo, las tres redes en una fila, las URLs configuradas de calendario y WhatsApp, metadatos, navegación por teclado y ausencia de desbordamiento horizontal. Chromium se almacena dentro del proyecto. Si no está instalado, ejecuta `PLAYWRIGHT_BROWSERS_PATH=node_modules/.cache/ms-playwright npx playwright install chromium`.
+
+## Calidad y rendimiento
+
+Las pruebas de navegador se ejecutan con Chromium y WebKit (motor de Safari), incluyendo móvil, tablet, escritorio, horizontal, teclado, accesibilidad automática, enlaces y reducción de movimiento. Instala ambos navegadores dentro del proyecto con `PLAYWRIGHT_BROWSERS_PATH=node_modules/.cache/ms-playwright npx playwright install chromium webkit`.
+
+El fondo se anima automáticamente, sin control de pausa visible. Se mantiene estático si el dispositivo pide reducir movimiento y se pausa al ocultar la pestaña. La llamada a reservar usa un pulso suave en el borde, sin ocultar ni parpadear el texto.
+
+`npm run audit:live` revisa la URL pública con Axe y Lighthouse y guarda los informes y capturas en `quality-reports/`, excluido de Git y del despliegue. Las puntuaciones son mediciones de laboratorio y varían con la red y el equipo.

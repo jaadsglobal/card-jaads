@@ -1,4 +1,3 @@
-import { MotionConfig } from 'framer-motion';
 import { ProfileHeader } from './components/ProfileHeader';
 import { BookingButton } from './components/BookingButton';
 import { ContactLinks, EmailLink } from './components/ContactLinks';
@@ -13,7 +12,7 @@ function CardPage() {
   return <>
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
     <ConnectionBackground />
-    <div className="page-shell"><main id="contenido">
+    <div className="page-shell"><main id="contenido" tabIndex={-1}>
       <ProfileHeader />
       <SocialLinks />
       <section className="primary-actions" aria-label="Reservas y contacto">
@@ -26,8 +25,8 @@ function CardPage() {
 }
 
 export default function App() {
-  return <MotionConfig reducedMotion="user"><RouteMetadata /><Routes>
+  return <><RouteMetadata /><Routes>
     <Route path="/" element={<CardPage />} />
     <Route path="*" element={<Navigate to="/" replace />} />
-  </Routes></MotionConfig>;
+  </Routes></>;
 }

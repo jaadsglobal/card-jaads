@@ -3,8 +3,8 @@ import { loadEnv } from 'vite';
 
 const env = loadEnv('development', process.cwd(), 'VITE_');
 
-for (const width of [320, 390, 768, 1440]) {
-  test(`company card layout at ${width}px`, async ({ page }) => {
+for (const width of [320, 360, 375, 390, 414, 580, 768, 1024, 1440]) {
+  test(`company card layout at ${width}px`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 900 });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -24,7 +24,7 @@ for (const width of [320, 390, 768, 1440]) {
     await expect(whatsapp).toHaveAttribute('rel', 'noopener noreferrer');
     await expect(page.getByRole('button', { name: /Compartir|Guardar/ })).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Nuestros servicios' })).toHaveCount(0);
-    await expect(page.locator('.brand-image')).toHaveAttribute('src', '/brand/logo-jaads-circular.png');
+    await expect(page.locator('.brand-image')).toHaveAttribute('src', '/brand/logo-jaads-256.webp');
     await expect(page.locator('.social-icon')).toHaveCount(3);
     await expect(page.getByRole('link', { name: /LinkedIn de JaaDs Global/ })).toHaveAttribute('href', env.VITE_LINKEDIN_COMPANY_URL);
     await expect(page.getByRole('link', { name: /Facebook/ })).toHaveAttribute('href', env.VITE_FACEBOOK_URL);
@@ -36,10 +36,10 @@ for (const width of [320, 390, 768, 1440]) {
       await expect(icon).toHaveCSS('border-top-width', '0px');
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/brand/logo-jaads-circular.png');
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/brand/favicon-64.png');
     await expect(page).toHaveTitle('JaaDs Global | Inteligencia Artificial y Automatización');
     expect(errors).toEqual([]);
-    if (width === 390 || width === 1440) await page.screenshot({ path: `test-results/landing-${width}.png`, fullPage: true });
+    if (width === 390 || width === 1440) await page.screenshot({ path: `test-results/${testInfo.project.name}-landing-${width}.png`, fullPage: true });
   });
 }
 
@@ -49,10 +49,13 @@ test('old services route redirects to the only card', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('JaaDs Global');
 });
 
-test('keyboard navigation and reduced motion', async ({ page }) => {
+test('keyboard navigation and reduced motion', async ({ page, browserName }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  await page.keyboard.press('Tab');
+  // WebKit on macOS uses Option+Tab to include links in keyboard navigation.
+  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
   await expect(page.getByRole('link', { name: 'Saltar al contenido' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#contenido')).toBeFocused();
   expect(await page.locator('html').evaluate(el => getComputedStyle(el).scrollBehavior)).toBe('auto');
 });

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pause, Play } from 'lucide-react';
 
 type Node = { x: number; y: number; phase: number; accent: boolean };
 
@@ -123,6 +122,5 @@ export function ConnectionBackground() {
     };
   }, [motionEnabled]);
 
-  const label = motionEnabled ? 'Pausar movimiento del fondo' : 'Activar movimiento del fondo';
-  return <><canvas ref={canvasRef} className="connection-background" aria-hidden="true" /><button type="button" className="motion-toggle" aria-label={label} title={label} aria-pressed={motionEnabled} onClick={() => setMotionEnabled(enabled => !enabled)}>{motionEnabled ? <Pause size={16} /> : <Play size={16} />}</button></>;
+  return <canvas ref={canvasRef} className="connection-background" aria-hidden="true" />;
 }

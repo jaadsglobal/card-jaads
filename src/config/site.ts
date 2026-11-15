@@ -11,8 +11,8 @@ export const site = {
   lastName: 'Márquez Pérez',
   role: 'Fundador y CEO',
   description: 'Impulsamos el crecimiento empresarial con inteligencia artificial, automatización y estrategias digitales diseñadas para generar resultados.',
-  logo: '/brand/logo-jaads-circular.png', // Original intacto y versión circular en public/brand/.
-  favicon: '/brand/logo-jaads-circular.png',
+  logo: '/brand/logo-jaads-256.webp', // Copia optimizada; original intacto en public/brand/.
+  favicon: '/brand/favicon-64.png',
   socialImage: '', // URL absoluta de la imagen para compartir, cuando esté disponible.
   website: 'https://jaadsglobal.com',
   publicUrl: 'https://card-jaads.vercel.app/', // Dominio definitivo de la tarjeta; activa QR y canonical.
