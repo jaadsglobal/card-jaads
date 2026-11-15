@@ -5,7 +5,7 @@ import { ContactLinks, EmailLink } from './components/ContactLinks';
 import { SocialLinks } from './components/SocialLinks';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { RouteMetadata } from './components/RouteMetadata';
-import { QRCode } from './components/QRCode';
+import { site } from './config/site';
 import { Footer } from './components/Footer';
 
 function CardPage() {
@@ -18,7 +18,7 @@ function CardPage() {
         <BookingButton />
         <ContactLinks />
       </section>
-      <section className="card-tools" aria-label="Conectar"><QRCode /><EmailLink /></section>
+      {site.email && <section className="card-tools" aria-label="Conectar"><EmailLink /></section>}
     </main><Footer /></div>
   </>;
 }
