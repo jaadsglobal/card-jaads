@@ -1,0 +1,10 @@
+{
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
+  "redirects": [
+    { "source": "/servicios", "destination": "/", "permanent": false },
+    { "source": "/servicios/", "destination": "/", "permanent": false }
+  ]
+}
