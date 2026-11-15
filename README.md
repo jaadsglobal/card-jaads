@@ -1,6 +1,6 @@
 # JaaDs Global · Tarjeta digital
 
-Tarjeta ejecutiva vertical, centrada y de un máximo de 520 px, con React, TypeScript, Vite, Tailwind CSS, Lucide, Simple Icons y una animación Canvas ligera. Tres acciones blancas: reservar, WhatsApp y web. La cabecera presenta únicamente JaaDs Global y las redes muestran LinkedIn de empresa, Instagram y Facebook en una fila sin recuadros. Sin backend, formularios ni servicios de pago. Fuente Manrope alojada en el propio proyecto.
+Tarjeta ejecutiva vertical, centrada y de un máximo de 520 px, con React, TypeScript, Vite, Tailwind CSS, Lucide, Simple Icons y una animación Canvas ligera. Tres acciones blancas: reservar, WhatsApp y web. La cabecera presenta únicamente JaaDs Global y las redes muestran LinkedIn de empresa, Instagram, Facebook, TikTok y YouTube en una fila sin recuadros. Sin backend, formularios ni servicios de pago. Fuente Manrope alojada en el propio proyecto.
 
 ## Desarrollo
 
@@ -19,14 +19,14 @@ npm run preview
 
 Los datos de presentación se gestionan en `src/config/site.ts`. Calendario, WhatsApp y correo se leen desde `.env.local`, excluido de Git. `.env.example` contiene únicamente los nombres de las variables.
 
-Variables: `VITE_BOOKING_URL`, `VITE_WHATSAPP_NUMBER`, `VITE_LINKEDIN_COMPANY_URL`, `VITE_FACEBOOK_URL` y `VITE_CONTACT_EMAIL`. Reinicia Vite al modificarlas. Son enlaces públicos que el navegador necesita para funcionar: el prefijo `VITE_` incluye sus valores en el frontend compilado. No protege secretos ni oculta el teléfono o el destino de los enlaces a los visitantes; no guardes contraseñas, tokens ni claves privadas aquí.
+Variables: `VITE_BOOKING_URL`, `VITE_WHATSAPP_NUMBER`, `VITE_LINKEDIN_COMPANY_URL`, `VITE_FACEBOOK_URL`, `VITE_TIKTOK_URL`, `VITE_YOUTUBE_URL` y `VITE_CONTACT_EMAIL`. Reinicia Vite al modificarlas. Son enlaces públicos que el navegador necesita para funcionar: el prefijo `VITE_` incluye sus valores en el frontend compilado. No protege secretos ni oculta el teléfono o el destino de los enlaces a los visitantes; no guardes contraseñas, tokens ni claves privadas aquí.
 
 - `BOOKING_URL`: URL real del calendario; activa el botón principal de reserva. Sin URL, aparece desactivado con una etiqueta accesible, sin avisos repetidos en pantalla.
 - `WHATSAPP_NUMBER`: número internacional, solo dígitos. Genera el enlace de WhatsApp con el mensaje indicado.
 - `CONTACT_EMAIL`: dirección real de contacto.
 - El correo aparece como acceso secundario al configurarlo, junto a compartir y QR. Los tres botones principales son reserva, WhatsApp y página web.
 - `phone`: teléfono de la vCard. Si está vacío, utiliza WhatsApp cuando esté configurado.
-- `socials`: tres accesos preparados: LinkedIn de empresa, Instagram y Facebook. Los perfiles sin URL muestran su icono sin enlace activo, con etiqueta accesible y tooltip. Se mantienen en una fila con desplazamiento horizontal cuando hace falta. Los SVG y colores proceden de Simple Icons; TikTok se representa en blanco para el fondo oscuro.
+- `socials`: cinco accesos preparados: LinkedIn de empresa, Instagram, Facebook, TikTok y YouTube. Los perfiles sin URL muestran su icono sin enlace activo, con etiqueta accesible y tooltip. Se mantienen en una fila con desplazamiento horizontal cuando hace falta. Los SVG y colores proceden de Simple Icons; TikTok se representa en blanco para el fondo oscuro.
 - `publicUrl`: URL definitiva de esta tarjeta. Activa canonical, `og:url` y QR. Compartir utiliza la URL actual del navegador mientras no se configure.
 - `logo`: utiliza `public/brand/logo-jaads-256.webp`, copia ligera del original centrado en un círculo blanco con exterior transparente. El PNG circular maestro se conserva en `public/brand/logo-jaads-circular.png`; `node scripts/optimize-web-assets.mjs` regenera las copias web y el favicon. El PNG original sin retocar se conserva en `public/brand/logo-jaads-original.png`. Para recomponer el círculo a partir del original : `node scripts/prepare-logo.mjs`. El script conserva los colores, los textos y las proporciones; solo ajusta escala y posición. Si falta el archivo, muestra «Logotipo».
 
@@ -56,7 +56,7 @@ Con el servidor de desarrollo iniciado en el puerto 5173:
 npx playwright test
 ```
 
-Los tests comprueban tamaños móvil/escritorio, el logotipo, las tres redes en una fila, las URLs configuradas de calendario y WhatsApp, metadatos, navegación por teclado y ausencia de desbordamiento horizontal. Chromium se almacena dentro del proyecto. Si no está instalado, ejecuta `PLAYWRIGHT_BROWSERS_PATH=node_modules/.cache/ms-playwright npx playwright install chromium`.
+Los tests comprueban tamaños móvil/escritorio, el logotipo, las cinco redes en una fila, las URLs configuradas de calendario y WhatsApp, metadatos, navegación por teclado y ausencia de desbordamiento horizontal. Chromium se almacena dentro del proyecto. Si no está instalado, ejecuta `PLAYWRIGHT_BROWSERS_PATH=node_modules/.cache/ms-playwright npx playwright install chromium`.
 
 ## Calidad y rendimiento
 

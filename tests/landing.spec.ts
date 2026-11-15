@@ -25,7 +25,11 @@ for (const width of [320, 360, 375, 390, 414, 580, 768, 1024, 1440]) {
     await expect(page.getByRole('button', { name: /Compartir|Guardar/ })).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Nuestros servicios' })).toHaveCount(0);
     await expect(page.locator('.brand-image')).toHaveAttribute('src', '/brand/logo-jaads-256.webp');
-    await expect(page.locator('.social-icon')).toHaveCount(3);
+    await expect(page.locator('.social-icon')).toHaveCount(5);
+    for (const [label, url] of [['TikTok', env.VITE_TIKTOK_URL], ['YouTube', env.VITE_YOUTUBE_URL]]) {
+      if (url) await expect(page.getByRole('link', { name: new RegExp(label) })).toHaveAttribute('href', url);
+      else await expect(page.getByRole('button', { name: new RegExp(label) })).toHaveAttribute('aria-disabled', 'true');
+    }
     await expect(page.getByRole('link', { name: /LinkedIn de JaaDs Global/ })).toHaveAttribute('href', env.VITE_LINKEDIN_COMPANY_URL);
     await expect(page.getByRole('link', { name: /Facebook/ })).toHaveAttribute('href', env.VITE_FACEBOOK_URL);
     await expect(page.getByRole('link', { name: /Instagram/ })).toHaveAttribute('href', 'https://www.instagram.com/jaadsglobal/');

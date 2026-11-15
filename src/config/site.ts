@@ -26,6 +26,8 @@ export const site = {
     { id: 'linkedin-company', label: 'LinkedIn de JaaDs Global', url: import.meta.env?.VITE_LINKEDIN_COMPANY_URL?.trim() || '' },
     { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/jaadsglobal/' },
     { id: 'facebook', label: 'Facebook', url: import.meta.env?.VITE_FACEBOOK_URL?.trim() || '' },
+    { id: 'tiktok', label: 'TikTok', url: import.meta.env?.VITE_TIKTOK_URL?.trim() || '' },
+    { id: 'youtube', label: 'YouTube', url: import.meta.env?.VITE_YOUTUBE_URL?.trim() || '' },
   ],
   services: [
     { icon: 'brain', name: 'Inteligencia Artificial', description: 'Agentes inteligentes que atienden consultas, cualifican clientes y automatizan conversaciones.', detail: 'Desarrollamos agentes inteligentes que permiten automatizar conversaciones, atender consultas, cualificar oportunidades comerciales y mejorar la experiencia del cliente.', benefits: ['Atención automatizada.', 'Respuestas rápidas.', 'Cualificación de clientes potenciales.', 'Disponibilidad fuera del horario comercial.', 'Integración con procesos empresariales.'] },
