@@ -35,6 +35,8 @@ test('booking pulse respects motion preference and leaves the text steady', asyn
   await page.goto('/');
   const booking = page.getByRole('link', { name: 'Reservar una reunión', exact: true });
   await expect(booking).toHaveCSS('animation-name', 'booking-attention');
+  const initialShadow = await booking.evaluate(el => getComputedStyle(el).boxShadow);
+  await expect.poll(() => booking.evaluate(el => getComputedStyle(el).boxShadow)).not.toBe(initialShadow);
   await expect(booking).toHaveCSS('opacity', '1');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(booking).toHaveCSS('animation-name', 'none');
