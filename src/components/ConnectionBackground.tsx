@@ -24,8 +24,8 @@ export function ConnectionBackground() {
       context.clearRect(0, 0, width, height);
       const positions = nodes.map(node => ({
         ...node,
-        x: node.x + Math.sin(time * 0.00012 + node.phase) * 19,
-        y: node.y + Math.cos(time * 0.0001 + node.phase) * 15,
+        x: node.x + Math.sin(time * 0.00055 + node.phase) * 36,
+        y: node.y + Math.cos(time * 0.00045 + node.phase) * 29,
       }));
       const reach = width < 600 ? 160 : 220;
 
@@ -36,22 +36,31 @@ export function ConnectionBackground() {
           const distance = Math.hypot(a.x - b.x, a.y - b.y);
           if (distance > reach) continue;
           const accent = a.accent || b.accent;
-          const opacity = (1 - distance / reach) * (accent ? 0.4 : 0.22);
+          const opacity = (1 - distance / reach) * (accent ? 0.6 : 0.36);
           context.strokeStyle = accent ? `rgba(227,6,19,${opacity})` : `rgba(190,195,205,${opacity})`;
-          context.lineWidth = 0.7;
+          context.lineWidth = 0.85;
           context.beginPath(); context.moveTo(a.x, a.y); context.lineTo(b.x, b.y); context.stroke();
 
-          // Small signals travel along a few connections at a quiet, steady pace.
-          if (accent && (i + j) % 4 === 0) {
-            const progress = (time * 0.000045 + i * 0.17) % 1;
-            context.fillStyle = `rgba(239,63,74,${opacity * 1.8})`;
+          // Visible signals flow between adjacent nodes, with a soft trail.
+          if (accent && (i + j) % 3 === 0) {
+            const progress = (time * 0.00016 + i * 0.17) % 1;
+            const signalX = a.x + (b.x - a.x) * progress;
+            const signalY = a.y + (b.y - a.y) * progress;
+            const tail = Math.max(0, progress - 0.14);
+            const trail = context.createLinearGradient(a.x + (b.x - a.x) * tail, a.y + (b.y - a.y) * tail, signalX, signalY);
+            trail.addColorStop(0, 'rgba(227,6,19,0)');
+            trail.addColorStop(1, `rgba(255,94,105,${Math.min(0.85, opacity * 3)})`);
+            context.strokeStyle = trail;
+            context.lineWidth = 1.5;
+            context.beginPath(); context.moveTo(a.x + (b.x - a.x) * tail, a.y + (b.y - a.y) * tail); context.lineTo(signalX, signalY); context.stroke();
+            context.fillStyle = `rgba(255,132,140,${Math.min(0.95, opacity * 4)})`;
             context.beginPath();
-            context.arc(a.x + (b.x - a.x) * progress, a.y + (b.y - a.y) * progress, 1.3, 0, Math.PI * 2);
+            context.arc(signalX, signalY, 2, 0, Math.PI * 2);
             context.fill();
           }
         }
-        context.fillStyle = a.accent ? 'rgba(227,6,19,0.65)' : 'rgba(210,215,225,0.3)';
-        context.beginPath(); context.arc(a.x, a.y, a.accent ? 1.8 : 1.2, 0, Math.PI * 2); context.fill();
+        context.fillStyle = a.accent ? 'rgba(239,35,49,0.85)' : 'rgba(210,215,225,0.5)';
+        context.beginPath(); context.arc(a.x, a.y, a.accent ? 2.1 : 1.5, 0, Math.PI * 2); context.fill();
       }
     }
 
