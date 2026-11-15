@@ -10,7 +10,8 @@ export const site = {
   firstName: 'Juan Guillermo',
   lastName: 'Márquez Pérez',
   role: 'Fundador y CEO',
-  description: 'Impulsamos el crecimiento empresarial con inteligencia artificial, automatización y estrategias digitales diseñadas para generar resultados.',
+  headline: 'Menos tiempo perdido. Más oportunidades de venta.',
+  description: 'Filtramos los contactos que no encajan con tu negocio para que te centres en los clientes con mayor intención de compra.',
   logo: '/brand/logo-jaads-256.webp', // Copia optimizada; original intacto en public/brand/.
   favicon: '/brand/favicon-64.png',
   socialImage: '', // URL absoluta de la imagen para compartir, cuando esté disponible.

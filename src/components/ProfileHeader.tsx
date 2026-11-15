@@ -6,6 +6,7 @@ export function ProfileHeader() {
     <div className="profile-content">
       <Brand />
       <h1 id="profile-name">{site.brand}</h1>
+      <h2 className="profile-headline">{site.headline}</h2>
       <p className="profile-description">{site.description}</p>
     </div>
   </header>;
