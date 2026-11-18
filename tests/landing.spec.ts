@@ -25,7 +25,12 @@ for (const width of [320, 360, 375, 390, 414, 580, 768, 1024, 1440]) {
     await expect(page.getByRole('button', { name: /Compartir|Guardar/ })).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Nuestros servicios' })).toHaveCount(0);
     await expect(page.locator('.brand-image')).toHaveAttribute('src', '/brand/logo-jaads-256.webp');
-    await expect(page.locator('.social-icon')).toHaveCount(5);
+    await expect(page.locator('.social-icon')).toHaveCount(6);
+    const x = page.getByRole('link', { name: 'X (nueva pestaña)' });
+    await expect(x).toHaveAttribute('href', 'https://x.com/jaadsglobal');
+    await expect(x).toHaveAttribute('target', '_blank');
+    await expect(x.locator('svg')).toBeVisible();
+    await expect(x).toHaveCSS('color', 'rgb(255, 255, 255)');
     for (const [label, url] of [['TikTok', env.VITE_TIKTOK_URL], ['YouTube', env.VITE_YOUTUBE_URL]]) {
       if (url) await expect(page.getByRole('link', { name: new RegExp(label) })).toHaveAttribute('href', url);
       else await expect(page.getByRole('button', { name: new RegExp(label) })).toHaveAttribute('aria-disabled', 'true');

@@ -26,6 +26,7 @@ export const site = {
     { id: 'linkedin-company', label: 'LinkedIn de JaaDs Global', url: import.meta.env?.VITE_LINKEDIN_COMPANY_URL?.trim() || '' },
     { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/jaadsglobal/' },
     { id: 'facebook', label: 'Facebook', url: import.meta.env?.VITE_FACEBOOK_URL?.trim() || '' },
+    { id: 'x', label: 'X', url: 'https://x.com/jaadsglobal' },
     { id: 'tiktok', label: 'TikTok', url: import.meta.env?.VITE_TIKTOK_URL?.trim() || '' },
     { id: 'youtube', label: 'YouTube', url: import.meta.env?.VITE_YOUTUBE_URL?.trim() || '' },
   ],
